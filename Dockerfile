@@ -7,3 +7,13 @@ RUN apt-get update -qq \
     && apt-get -qy autoremove \
     && apt-get clean \
     && rm -r /var/lib/apt/lists/*;
+
+WORKDIR /src
+
+# cache dependencies
+COPY /src/go.mod .
+COPY /src/go.sum .
+RUN go mod download
+
+# build
+CMD go build -a -o ${OUTPUT:-output}
