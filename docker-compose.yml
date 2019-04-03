@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  linux:
+    image: paulhovey/fyne-cross:latest
+    build: .
+    command: go build -a -o ${OUTPUT:-linux_app}
+    volumes:
+      - ./src:/src
+    environment:
+      - CGO_ENABLED=1
+      - GOOS=linux
+      - CC=gcc
+      - GO111MODULE=on # for go mod support
+      - OUTPUT=fyne-example-arm
